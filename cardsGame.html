@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="cardSys.js" defer></script>
+    <title>Cards Game</title>
+</head>
+<body>
+    <div class="header-org">
+        <h1 class="title-game"><i class=""></i>Poker.io</h1>
+        <button class="deal" onclick="dealCards(this)">
+            Play
+        </button>
+        <div class="money">
+            <p id="money">2 000 000 &nbsp;<i class="bi bi-coin" style="font-size: 15px;color: goldenrod;"></i></p>
+            <div class="plus">+</div>
+        </div>
+    </div>
+    <header>
+        <h1 class="big">
+            Poker.io
+        </h1>
+    </header>
+    <main id="main">
+        <div class="hisHand">
+            <fieldset class="your">
+                <legend>Opponent</legend>
+                <span id="insert-his" style="display: none;"></span>
+                
+            </fieldset>
+        </div>
+        <div class="table">
+            <fieldset class="our">
+                <legend>Table</legend>
+                <span id="insert-tab" style="display: none;"></span>
+                
+            </fieldset>
+            <fieldset class="bet">
+                <legend>Bet</legend>
+                <i class="bi bi-coin" style="font-size: 72px;color: goldenrod;"></i>
+                <p class="money" id="bets">5000</p>
+            </fieldset>
+        </div>
+        <div class="myHand">
+            <fieldset class="mine">
+                <Legend>You</Legend>
+                <span id="insert-my" style="display: none;"></span>
+                
+            </fieldset>
+            <div class="result">
+                <span id="result"></span>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
