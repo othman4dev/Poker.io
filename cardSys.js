@@ -219,12 +219,15 @@ function dealCards(e) {
     }
     }, 5000);
     calculateScore(cards, table, his);
+    calculateHisScore( cards, table, his);
 }
 function showCards(e) {
     let hisCards = document.querySelector('.hisHand').querySelectorAll('.card-inner');
     hisCards.forEach(element => {
         element.style.animationName = 'flip';
     });
+    document.querySelectorAll('.result')[0].style.display = 'block';
+    document.getElementById('his-result').innerText = hisHand.kind;
     e.outerHTML = `
         <button class="deal" onclick="endGame(this)">
             Play Again
@@ -329,7 +332,7 @@ function calculateScore(cards, table, his) {
     }
     myHand.kind = kind;
     setTimeout(() => {
-        document.querySelector('.result').style.display = 'block';
+        document.querySelectorAll('.result')[1].style.display = 'block';
         document.getElementById('result').innerText = kind;
     }, 10000);
     setTimeout(() => {
@@ -338,6 +341,96 @@ function calculateScore(cards, table, his) {
             element.classList.add('blured');
         });
     }, 10000);
+}
+function calculateHisScore(his, table, cards) {
+    let allSeven = his.concat(table);
+    let duplicates = [];
+    let kind;
+    // Check for duplicates and store them in an array
+    for (let i = 0; i < allSeven.length; i++) {
+        let currentCard = allSeven[i];
+        let currentNum = currentCard.split('/')[0];
+
+        for (let j = i + 1; j < allSeven.length; j++) {
+            let nextCard = allSeven[j];
+            let nextNum = nextCard.split('/')[0];
+            if (currentNum === nextNum) {
+                duplicates.push(currentCard);
+                duplicates.push(nextCard);
+            }
+        }
+    }
+    if (duplicates.length === 0) {
+        if (straightFlush(allSeven)) {
+            const straightFlushCards = straightFlush(allSeven);
+            selectCards(straightFlushCards);
+            kind = straightFlushCards[0].split('/')[0] == 'A' ? "Royal Flush" : "Straight Flush";
+        } else if (straight(allSeven)) {
+            const straightCards = straight(allSeven);
+            selectCards(straightCards);
+            kind = "Straight";
+        } else if (flush(allSeven)) {
+            const flushCards = flush(allSeven);
+            selectCards(flushCards);
+            kind = "Flush";
+        } else {
+            kind = "High Card";
+            selectTop(5, allSeven, duplicates);
+        }
+    } else if (duplicates.length === 2) {
+        if (straightFlush(allSeven)) {
+            const straightFlushCards = straightFlush(allSeven);
+            selectCards(straightFlushCards);
+            kind = straightFlushCards[0].split('/')[0] == 'A' ? "Royal Flush" : "Straight Flush";
+        } else if (straight(allSeven)) {
+            const straightCards = straight(allSeven);
+            selectCards(straightCards);
+            kind = "Straight";
+        } else if (flush(allSeven)) {
+            const flushCards = flush(allSeven);
+            selectCards(flushCards);
+            kind = "Flush";
+        } else {
+            kind = "Pair";
+            selectCards(duplicates);
+            selectTop(3, allSeven, duplicates);
+        }
+    } else if (duplicates.length === 4) {
+        if (straightFlush(allSeven)) {
+            const straightFlushCards = straightFlush(allSeven);
+            selectCards(straightFlushCards);
+            kind = straightFlushCards[0].split('/')[0] == 'A' ? "Royal Flush" : "Straight Flush";
+        } else if (straight(allSeven)) {
+            const straightCards = straight(allSeven);
+            selectCards(straightCards);
+            kind = "Straight";
+        } else if (flush(allSeven)) {
+            const flushCards = flush(allSeven);
+            selectCards(flushCards);
+            kind = "Flush";
+        } else {
+            kind = "Two Pairs";
+            selectCards(duplicates);
+            selectTop(1, allSeven, duplicates);
+        }
+    } else if (duplicates.length > 6) {
+        if (fullHouse(duplicates)) {
+            const fullHouseCards = fullHouse(duplicates);
+            selectCards(fullHouseCards);
+            kind = "Full House";
+        } else if (fourOfAKind(duplicates)) {
+            const fourOfAKindCards = fourOfAKind(duplicates);
+            selectCards(fourOfAKindCards);
+            kind = "Four of a Kind";
+            selectTop(1, allSeven, duplicates);
+        } else if (threeOfAKind(duplicates)) { 
+            const threeOfAKindCards = threeOfAKind(duplicates);
+            selectCards(threeOfAKindCards);
+            kind = "Three of a Kind";
+            selectTop(2, allSeven, duplicates);
+        }
+    }
+    hisHand.kind = kind;
 }
 function selectTop(num, allSeven, duplicates) {
     let localSeven = allSeven.slice(); // Create a copy of the array to avoid modifying the original array

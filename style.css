@@ -72,6 +72,7 @@ body {
     justify-content: center;
     margin-top: 5px;
     margin-bottom: 5px;
+    position: relative;
 }
 .table {
     display: flex;
@@ -120,7 +121,6 @@ body {
     box-shadow: 0 0 10px 2px #00000019;
     align-items: center;
     justify-content: space-evenly;
-    padding: 10px;
     position: absolute;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
