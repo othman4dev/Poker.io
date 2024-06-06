@@ -1,6 +1,8 @@
 let myCards = [];
 let hisCards = [];
 let tableCards = [];
+let myHand = null;
+let hisHand = null;
 function dealCards(e) {
     var deck = [
         'A/H', '2/H', '3/H', '4/H', '5/H', '6/H', '7/H', '8/H', '9/H', '10/H', 'J/H', 'Q/H', 'K/H', // Hearts
@@ -153,8 +155,8 @@ function dealCards(e) {
     console.log(myCards);
     console.log(hisCards);
     console.log(tableCards);
-    selectCards();
     console.log('Winner:', determineWinner(myCards, hisCards, tableCards));
+    selectCards();
 }
 const cardsValue = {
     '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
@@ -214,7 +216,8 @@ function checkForFlush(cards) {
     });
 
     let flushes = Object.values(suits).filter(suit => suit.length >= 5);
-    return flushes.length > 0 ? flushes.map(suit => suit.slice(0, 5)) : false;
+    let result = flushes.length > 0 ? flushes.map(suit => suit.slice(0, 5)) : false;
+    return result;
 }
 
 // Identify straights
@@ -307,10 +310,14 @@ function compareHands(hand1, hand2) {
 
     // Compare card values in case of a tie in hand rank
     for (let i = 0; i < hand1.cards.length; i++) {
-        let value1 = cardsValue[hand1.cards[i].split('/')[0]];
-        let value2 = cardsValue[hand2.cards[i].split('/')[0]];
-        if (value1 !== value2) {
-            return value1 > value2 ? 'Player 1' : 'Player 2';
+        if (typeof hand1.cards[i] === 'string' && typeof hand2.cards[i] === 'string') {
+            let value1 = cardsValue[hand1.cards[i].split('/')[0]];
+            let value2 = cardsValue[hand2.cards[i].split('/')[0]];
+            if (value1 !== value2) {
+                return value1 > value2 ? 'Player 1' : 'Player 2';
+            }
+        } else {
+            console.error('hand1.cards[i] or hand2.cards[i] is not a string:', hand1.cards[i], hand2.cards[i]);
         }
     }
 
@@ -325,6 +332,8 @@ function determineWinner(myCards, hisCards, tableCards) {
     let bestHand1 = evaluateBestHand(player1Cards);
     let bestHand2 = evaluateBestHand(player2Cards);
 
+    myHand = evaluateBestHand(player1Cards);
+    hisHand = evaluateBestHand(player2Cards);
     console.log('Player 1 Best Hand:', bestHand1);
     console.log('Player 2 Best Hand:', bestHand2);
 
@@ -333,29 +342,31 @@ function determineWinner(myCards, hisCards, tableCards) {
 
 function selectCards() {
     // Assuming myHand.sortedCards is already defined and contains the best hand cards
-    let that = myHand.sortedCards;
+    let that = myHand.cards;
     let selectedCards = [];
 
     that.forEach(element => {
-        if (element.split('/')[0] == '11') {
-            selectedCards.push(element.replace('11/', 'J-'));
-        } else if (element.split('/')[0] == '12') {
-            selectedCards.push(element.replace('12/', 'Q-'));
-        } else if (element.split('/')[0] == '13') {
-            selectedCards.push(element.replace('13/', 'K-'));
-        } else if (element.split('/')[0] == '14') {
-            selectedCards.push(element.replace('14/', 'A-'));
+        console.log(element);
+        if (typeof element === 'string') {
+            if (element.split('/')[0] == '11') {
+                selectedCards.push(element.replace('11/', 'J-'));
+            } else if (element.split('/')[0] == '12') {
+                selectedCards.push(element.replace('12/', 'Q-'));
+            } else if (element.split('/')[0] == '13') {
+                selectedCards.push(element.replace('13/', 'K-'));
+            } else if (element.split('/')[0] == '14') {
+                selectedCards.push(element.replace('14/', 'A-'));
+            } else {
+                selectedCards.push(element.replace('/', '-'));
+            }
         } else {
-            selectedCards.push(element.replace('/', '-'));
+            console.error('element is not a string:', element);
         }
     });
-
-    console.log(selectedCards);
 
     if (!Array.isArray(that)) {
         return;
     }
-
     setTimeout(() => {
         selectedCards.forEach(element => {
             console.log(element);
@@ -365,6 +376,37 @@ function selectCards() {
             }
         });
         document.querySelectorAll('.result')[1].style.display = 'block';
-        document.getElementById('result').innerText = myHand.message;
+        switch (myHand.hand) {
+            case 'highCard':
+                document.getElementById('result').innerText = 'High Card';
+                break;
+            case 'onePair':
+                document.getElementById('result').innerText = 'Pair';
+                break;
+            case 'twoPair':
+                document.getElementById('result').innerText = 'Two Pair';
+                break;
+            case 'threeOfAKind':
+                document.getElementById('result').innerText = 'Three of a Kind';
+                break;
+            case 'straight':
+                document.getElementById('result').innerText = 'Straight';
+                break;
+            case 'flush':
+                document.getElementById('result').innerText = 'Flush';
+                break;
+            case 'fullHouse':
+                document.getElementById('result').innerText = 'Full House';
+                break;
+            case 'fourOfAKind':
+                document.getElementById('result').innerText = 'Four of a Kind';
+                break;
+            case 'straightFlush':
+                document.getElementById('result').innerText = 'Straight Flush';
+                break;
+            default:
+                break;
+        }
+        
     }, 1000);  // Adjusted timeout for demo purposes
 }

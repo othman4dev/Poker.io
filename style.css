@@ -37,16 +37,18 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    font-size: 16px;
+    padding: 5px;
 }
 #money {
     padding: 7px;
-    border-radius: 12px;
+    border-radius: 5px;
     border: #fff solid 2px;
 }
 .plus {
-    background-color: #9b9b1c;
+    background-color: goldenrod;
     padding: 5px;
-    border-radius: 50%;
+    border-radius: 5px;
     height: 30px;
     width: 30px;
     display: flex;
@@ -214,6 +216,10 @@ legend {
     cursor: pointer;
     border-radius: 5px;
     border: solid #ffffff50 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 .deal:hover {
     background-color: #ffffff30;
@@ -316,6 +322,14 @@ main {
     transition: 0.2s;
     opacity: 1;
 }
+.selected-red {
+    box-shadow: 0 0 4px rgb(32, 106, 218), 0 0 20px rgb(0, 162, 255) , rgb(32, 175, 218) 0 0 0 4px;
+    border-radius: 5px;
+    scale: 1 !important;
+    transform: translateY(0px);
+    transition: 0.2s;
+    opacity: 1;
+}
 .bet {
     border: solid #ffffff20 5px;
     height: 220px;
@@ -326,12 +340,15 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    top: 65px;
+    right : 15px;
+    z-index: 999;
 }
 .result {
     background-color: #9B1C31;
     color: #fff;
-    font-size: 18px;
-    font-weight: 1000;
+    font-size: 13px;
     width: fit-content;
     max-width: 150px;
     border-radius: 5px;
@@ -343,4 +360,195 @@ main {
     display: none;
     text-align: center;
     width: fit-content;
+}
+.chips-container {
+    background-image: url('assets/chip.png');
+    background-size: contain;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100px;
+    max-height: 100px;
+    min-height: 100px;
+    min-width: 100px;
+}
+.chip {
+    animation-iteration-count: 5;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+}
+@keyframes chipStacking {
+    0% {
+        transform: translate(50px, -50px) rotate(30deg) matrix(1, 0, 0, 1, 0, 0) scale(0.4);
+    }
+    100% {
+        transform: translate(0px, 0px) rotate(0deg) matrix(1, 0, 0, 1, 0, 0) scale(1);
+    }
+}
+.price-tag {
+    font-size: 12px;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    border: solid #ffffff20 5px;
+    width: 220px;
+    padding: 7px;
+    z-index: 999;
+    display: none;
+}
+.action {
+    padding: 15px;
+    width: 100%;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 18px;
+    border: none;
+    background: #3fa76c;
+    border-color: #3fa76c;
+    border-bottom-color: #348959;
+    color: #fff;
+    line-height: 2rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    border-width: .05em;
+    border-bottom-width: .1rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+.action:hover {
+    transform: translateY(-2px);
+    border-bottom-width: .15rem;
+}
+.green {
+    background-color: #348959;
+}
+.red {
+    background-color: #893434;
+}
+.yellow {
+    background-color: #a76c3f;
+}
+.black {
+    background-color: #000;
+}
+.action:disabled {
+    filter: grayscale();
+    cursor: not-allowed;
+}
+.turns {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    height: 50px;
+    position: fixed;
+    bottom: 15px;
+    font-size: 17px;
+    font-weight: 700;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: linear-gradient(to right, #00000000, #9e0e0e , #00000000);
+    color: #fff;
+}
+.bet-range {
+    accent-color: #fff;
+    cursor: pointer;
+    width: 120px;
+}
+.betting {
+    display: none;
+}
+.money-inp {
+    background-color: #ffffff40;
+    color: #000;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 120px;
+    padding-inline: 15px;
+    text-align: center;
+}
+.bet-btn {
+    background-color: #3fa76c;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 120px;
+    cursor: pointer;
+    margin: auto;
+}
+.bet-btn:hover {
+    background-color: #348959;
+}
+.profile {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile img {
+    height: 60px;
+    width: 60px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+.profile .img-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 5px;
+    background-color: #6e0a0a;
+    padding: 10px;
+    height: 140px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px #0000002a;
+}
+.profile-texts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #9e0e0e;
+    color: #fff;
+    padding: 15px;
+    box-shadow: 0 0 10px 2px #0000002a;
+    min-width: 180px;
+}
+.name {
+    font-size: 24px;
+    font-weight: 700;
+}
+.status {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 80px;
+    text-align: center;
+}
+.money-card {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #383838;
+    width: 100%;
+    text-align: center;
 }

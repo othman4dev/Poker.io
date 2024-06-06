@@ -270,7 +270,6 @@ function calculateMyHand() {
         myHand.message = 'High Card';
         select5Cards(numerical);
     }
-    console.log(myHand);
 }
 function checkForOnePair(sevenCards) {
     let values = {};
@@ -560,7 +559,6 @@ function selectCards() {
             selectedCards.push( element.replace('/','-'));
         }
     });
-    console.log(selectedCards);
     if (!Array.isArray(that)) {
         return;
     }
@@ -571,6 +569,6 @@ function selectCards() {
             cardi.classList.add('selected');
         });
         document.querySelectorAll('.result')[1].style.display = 'block';
-        document.getElementById('result').innerText = myHand.message;
+        document.getElementById('result').innerText = myHand.hand;
     }, 10000);
 }
